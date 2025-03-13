@@ -1,0 +1,1146 @@
+---
+title: "Báo cáo kết quả Chương trình OCOP tỉnh An Giang"
+subtitle: "Lập bởi Văn phòng Chương trình Nông thôn mới tỉnh An Giang"
+author: "Vo Thanh Danh"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    code_download: true
+    df_print: paged
+    toc: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+    toc_depth: 4
+    number_sections: true
+    code_folding: "show"
+    theme: "cosmo"
+    highlight: "monochrome"
+  pdf_document: default
+  word_document: default
+---
+
+
+<style>
+h1.title {font-size: 18pt; color: DarkBlue;} 
+body, h1, h2, h3, h4 {font-family: "Palatino", serif;}
+body {font-size: 12pt;}
+/* Headers */
+h1,h2,h3,h4,h5,h6{font-size: 14pt; color: #00008B;}
+body {color: #333333;}
+a, a:hover {color: #8B3A62;}
+pre {font-size: 12px;}
+</style>
+
+
+
+```{r setup, echo=FALSE, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+```{r}
+pacman::p_load(here, rio, ggplot2, tidyverse, tidyr, dplyr, knitr, readxl, corrplot,
+  ggpie,
+  ggpubr,
+  haven,
+  tidygeocoder)
+```
+
+
+```{r}
+dta <- import(here("csdl", "ocop_ag_2020_offical.xlsx"))
+```
+
+
+# Thực trạng phát triển sản phẩm OCOP tỉnh An Giang từ năm 2019 đến năm  `r format(Sys.Date(), "%Y")`
+
+## Bản đồ vị trí sản phẩm OCOP tỉnh An Giang
+
+
+```{r}
+# Dot density maps
+## lấy thí dụ cho kinh do va vi do tu file "sample.xlsx"
+map_dta <- import(here("csdl", "sample.xlsx"))
+#
+map <- map_dta %>% select(kinh_do, vi_do, company, address, prod_name, star_type, )
+head(map, 3)
+```
+
+
+```{r}
+library(mapview)
+library(sf)
+mymap <- st_as_sf(map, coords = c("kinh_do", "vi_do"), crs = 4326)
+mapview(mymap, color="black", col.regions="blue",
+        alpha.regions=0.5, legend = FALSE,
+        homebutton = FALSE, map.types = "OpenStreetMap" )
+
+```
+
+
+## Toàn tỉnh
+
+### Chung
+
+```{r}
+dta %>% select(-kinh_do, -vi_do) %>% 
+rmarkdown::paged_table(dta)
+
+```
+
+### Năm 2020
+
+```{r}
+# nam 2020
+dta %>% 
+filter(year_eval %in% c("20")) %>%
+  rmarkdown::paged_table()
+```
+
+
+### Năm 2021
+
+```{r}
+# nam 2021
+dta %>% 
+filter(year_eval %in% c("21")) %>%
+  rmarkdown::paged_table()
+```
+
+
+### Năm 2022
+
+```{r}
+# nam 2022
+dta %>% 
+filter(year_eval %in% c("22")) %>%
+  rmarkdown::paged_table()
+```
+
+### Năm 2023
+
+```{r}
+# nam 2023
+dta %>% 
+filter(year_eval %in% c("23")) %>%
+  rmarkdown::paged_table()
+```
+
+### Năm 2024
+
+```{r}
+# nam 2024
+dta %>% 
+filter(year_eval %in% c("24")) %>%
+  rmarkdown::paged_table()
+```
+
+
+### Năm 2025
+
+```{r}
+# nam 2025
+dta %>% 
+filter(year_eval %in% c("25")) %>%
+  rmarkdown::paged_table()
+```
+
+## Cấp huyện
+
+### Thành phố Long Xuyên
+
+#### Chung 
+
+
+```{r}
+# Lọc và hiển thị dữ liệu
+dta_lx <- dta %>% 
+filter(district %in% c("883")) %>%
+  rmarkdown::paged_table()
+```
+
+#### Năm 2020
+
+```{r}
+# nam 2020
+dta_lx %>% 
+filter(year_eval %in% c("20")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2021
+
+```{r}
+# nam 2021
+dta_lx %>% 
+filter(year_eval %in% c("21")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2022
+
+```{r}
+# nam 2022
+dta_lx %>% 
+filter(year_eval %in% c("22")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2023
+
+```{r}
+# nam 2023
+dta_lx %>% 
+filter(year_eval %in% c("23")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2024
+
+```{r}
+# nam 2024
+dta_lx %>% 
+filter(year_eval %in% c("24")) %>%
+  rmarkdown::paged_table()
+```
+
+#### Năm 2025
+
+```{r}
+# nam 2025
+dta_lx %>% 
+filter(year_eval %in% c("25")) %>%
+  rmarkdown::paged_table()
+```
+
+
+### Thành phố Châu Đốc
+
+#### Chung
+
+```{r}
+# Lọc và hiển thị dữ liệu
+dta_cd <- dta %>% 
+filter(district %in% c("884")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2020
+
+```{r}
+# nam 2020
+dta_cd %>% 
+filter(year_eval %in% c("20")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2021
+
+```{r}
+# nam 2021
+dta_cd %>% 
+filter(year_eval %in% c("21")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2022
+
+```{r}
+# nam 2022
+dta_cd %>% 
+filter(year_eval %in% c("22")) %>%
+  rmarkdown::paged_table()
+```
+
+#### Năm 2023
+
+```{r}
+# nam 2023
+dta_cd %>% 
+filter(year_eval %in% c("23")) %>%
+  rmarkdown::paged_table()
+```
+
+#### Năm 2024
+
+```{r}
+# nam 2024
+dta_cd %>% 
+filter(year_eval %in% c("24")) %>%
+  rmarkdown::paged_table()
+```
+
+#### Năm 2025
+
+```{r}
+# nam 2025
+dta_cd %>% 
+filter(year_eval %in% c("25")) %>%
+  rmarkdown::paged_table()
+```
+
+
+### Huyện Châu Phú
+
+#### Chung
+
+```{r}
+# Lọc và hiển thị dữ liệu
+dta_cp <- dta %>% 
+filter(district %in% c("888")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2020
+
+```{r}
+# nam 2020
+dta_cp %>% 
+filter(year_eval %in% c("20")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2021
+
+```{r}
+# nam 2021
+dta_cp %>% 
+filter(year_eval %in% c("21")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2022
+
+```{r}
+# nam 2022
+dta_cp %>% 
+filter(year_eval %in% c("22")) %>%
+  rmarkdown::paged_table()
+```
+
+#### Năm 2023
+
+```{r}
+# nam 20223
+dta_cp %>% 
+filter(year_eval %in% c("23")) %>%
+  rmarkdown::paged_table()
+```
+
+#### Năm 2024
+
+```{r}
+# nam 2024
+dta_cp %>% 
+filter(year_eval %in% c("24")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2025
+
+```{r}
+# nam 2025
+dta_cp %>% 
+filter(year_eval %in% c("25")) %>%
+  rmarkdown::paged_table()
+```
+
+
+
+### Huyện An Phú
+
+#### Chung
+
+```{r}
+# Lọc và hiển thị dữ liệu
+dta_ap <- dta %>% 
+filter(district %in% c("885")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2020
+
+```{r}
+# nam 2020
+dta_ap %>% 
+filter(year_eval %in% c("20")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2021
+
+```{r}
+# nam 2021
+dta_ap %>% 
+filter(year_eval %in% c("21")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2022
+
+```{r}
+# nam 2022
+dta_ap %>% 
+filter(year_eval %in% c("22")) %>%
+  rmarkdown::paged_table()
+```
+
+#### Năm 2023
+
+```{r}
+# nam 2023
+dta_ap %>% 
+filter(year_eval %in% c("23")) %>%
+  rmarkdown::paged_table()
+```
+
+#### Năm 2024
+
+```{r}
+# nam 2024
+dta_ap %>% 
+filter(year_eval %in% c("24")) %>%
+  rmarkdown::paged_table()
+```
+
+#### Năm 2025
+
+```{r}
+# nam 2025
+dta_ap %>% 
+filter(year_eval %in% c("25")) %>%
+  rmarkdown::paged_table()
+```
+
+
+### Thị xã Tân Châu
+
+#### Chung
+
+
+```{r}
+# Lọc và hiển thị dữ liệu
+dta_ap <- dta %>% 
+filter(district %in% c("886")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2020
+
+```{r}
+# nam 2020
+dta_ap %>% 
+filter(year_eval %in% c("20")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2021
+
+```{r}
+# nam 2021
+dta_ap %>% 
+filter(year_eval %in% c("21")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2022
+
+```{r}
+# nam 2022
+dta_ap %>% 
+filter(year_eval %in% c("22")) %>%
+  rmarkdown::paged_table()
+```
+
+#### Năm 2023
+
+```{r}
+# nam 2023
+dta_ap %>% 
+filter(year_eval %in% c("23")) %>%
+  rmarkdown::paged_table()
+```
+
+#### Năm 2024
+
+```{r}
+# nam 2024
+dta_ap %>% 
+filter(year_eval %in% c("24")) %>%
+  rmarkdown::paged_table()
+```
+
+#### Năm 2025
+
+```{r}
+# nam 2025
+dta_ap %>% 
+filter(year_eval %in% c("25")) %>%
+  rmarkdown::paged_table()
+```
+
+
+### Huyện Phú Tân
+
+#### Chung
+
+
+```{r}
+# Lọc và hiển thị dữ liệu
+dta_pt <- dta %>% 
+filter(district %in% c("887")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2020
+
+```{r}
+# nam 2020
+dta_pt %>% 
+filter(year_eval %in% c("20")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2021
+
+```{r}
+# nam 2021
+dta_pt %>% 
+filter(year_eval %in% c("21")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2022
+
+```{r}
+# nam 2022
+dta_pt %>% 
+filter(year_eval %in% c("22")) %>%
+  rmarkdown::paged_table()
+```
+
+#### Năm 2023
+
+```{r}
+# nam 2023
+dta_pt %>% 
+filter(year_eval %in% c("23")) %>%
+  rmarkdown::paged_table()
+```
+
+#### Năm 2024
+
+```{r}
+# nam 2024
+dta_pt %>% 
+filter(year_eval %in% c("24")) %>%
+  rmarkdown::paged_table()
+```
+
+#### Năm 2025
+
+```{r}
+# nam 2025
+dta_pt %>% 
+filter(year_eval %in% c("25")) %>%
+  rmarkdown::paged_table()
+```
+
+
+
+### Huyện Tịnh Biên
+
+#### Chung
+```{r}
+# Lọc và hiển thị dữ liệu
+dta_tb <- dta %>% 
+filter(district %in% c("889")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2020
+
+```{r}
+# nam 2020
+dta_tb %>% 
+filter(year_eval %in% c("20")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2021
+
+```{r}
+# nam 2021
+dta_tb %>% 
+filter(year_eval %in% c("21")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2022
+
+```{r}
+# nam 2022
+dta_tb %>% 
+filter(year_eval %in% c("22")) %>%
+  rmarkdown::paged_table()
+```
+
+#### Năm 2023
+```{r}
+# nam 2023
+dta_tb %>% 
+filter(year_eval %in% c("23")) %>%
+  rmarkdown::paged_table()
+```
+
+#### Năm 2024
+
+```{r}
+# nam 2024
+dta_tb %>% 
+filter(year_eval %in% c("24")) %>%
+  rmarkdown::paged_table()
+```
+
+#### Năm 2025
+
+```{r}
+# nam 2025
+dta_tb %>% 
+filter(year_eval %in% c("25")) %>%
+  rmarkdown::paged_table()
+```
+
+
+
+### Huyện Tri Tôn
+
+#### Chung 
+
+
+```{r}
+# Lọc và hiển thị dữ liệu
+dta_tt <- dta %>% 
+filter(district %in% c("890")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2020
+
+```{r}
+# nam 2020
+dta_tt %>% 
+filter(year_eval %in% c("20")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2021
+
+```{r}
+# nam 2021
+dta_tt %>% 
+filter(year_eval %in% c("21")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2022
+
+```{r}
+# nam 2022
+dta_tt %>% 
+filter(year_eval %in% c("22")) %>%
+  rmarkdown::paged_table()
+```
+
+#### Năm 2023
+
+```{r}
+# nam 2023
+dta_tt %>% 
+filter(year_eval %in% c("23")) %>%
+  rmarkdown::paged_table()
+```
+
+#### Năm 2024
+
+```{r}
+# nam 2024
+dta_tt %>% 
+filter(year_eval %in% c("24")) %>%
+  rmarkdown::paged_table()
+```
+
+#### Năm 2025
+
+```{r}
+# nam 2025
+dta_tt %>% 
+filter(year_eval %in% c("25")) %>%
+  rmarkdown::paged_table()
+```
+
+
+### Huyện Châu Thành
+
+#### Chung
+
+```{r}
+# Lọc và hiển thị dữ liệu
+dta_ct <- dta %>% 
+filter(district %in% c("891")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2020
+
+```{r}
+# nam 2020
+dta_ct %>% 
+filter(year_eval %in% c("20")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2021
+
+```{r}
+# nam 2021
+dta_ct %>% 
+filter(year_eval %in% c("21")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2022
+
+```{r}
+# nam 2022
+dta_ct %>% 
+filter(year_eval %in% c("22")) %>%
+  rmarkdown::paged_table()
+```
+
+#### Năm 2023
+
+```{r}
+# nam 2023
+dta_ct %>% 
+filter(year_eval %in% c("23")) %>%
+  rmarkdown::paged_table()
+```
+
+#### Năm 2024
+
+```{r}
+# nam 2024
+dta_ct %>% 
+filter(year_eval %in% c("24")) %>%
+  rmarkdown::paged_table()
+```
+
+#### Năm 2025
+
+```{r}
+# nam 2025
+dta_ct %>% 
+filter(year_eval %in% c("25")) %>%
+  rmarkdown::paged_table()
+```
+
+
+
+### Huyện Chợ Mới
+
+#### Chung
+
+```{r}
+# Lọc và hiển thị dữ liệu
+dta_cm <- dta %>% 
+filter(district %in% c("892")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2020
+
+```{r}
+# nam 2020
+dta_cm %>% 
+filter(year_eval %in% c("20")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2021
+
+```{r}
+# nam 2021
+dta_cm %>% 
+filter(year_eval %in% c("21")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2022
+
+```{r}
+# nam 2022
+dta_cm %>% 
+filter(year_eval %in% c("22")) %>%
+  rmarkdown::paged_table()
+```
+
+#### Năm 2023
+
+```{r}
+# nam 2023
+dta_cm %>% 
+filter(year_eval %in% c("23")) %>%
+  rmarkdown::paged_table()
+```
+
+#### Năm 2024
+
+```{r}
+# nam 2024
+dta_cm %>% 
+filter(year_eval %in% c("24")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2025
+
+```{r}
+# nam 2025
+dta_cm %>% 
+filter(year_eval %in% c("25")) %>%
+  rmarkdown::paged_table()
+```
+
+
+### Huyện Thoại Sơn
+
+#### Chung
+
+```{r}
+# Lọc và hiển thị dữ liệu
+dta_ts <- dta %>% 
+filter(district %in% c("893")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2020
+
+```{r}
+# nam 2020
+dta_ts %>% 
+filter(year_eval %in% c("20")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2021
+
+```{r}
+# nam 2021
+dta_ts %>% 
+filter(year_eval %in% c("21")) %>%
+  rmarkdown::paged_table()
+```
+
+
+#### Năm 2022
+
+```{r}
+# nam 2022
+dta_ts %>% 
+filter(year_eval %in% c("22")) %>%
+  rmarkdown::paged_table()
+```
+
+#### Năm 2023
+
+```{r}
+# nam 2023
+dta_ts %>% 
+filter(year_eval %in% c("23")) %>%
+  rmarkdown::paged_table()
+```
+
+#### Năm 2024
+
+```{r}
+# nam 2024
+dta_ts %>% 
+filter(year_eval %in% c("24")) %>%
+  rmarkdown::paged_table()
+```
+
+#### Năm 2025
+
+```{r}
+# nam 2025
+dta_ts %>% 
+filter(year_eval %in% c("25")) %>%
+  rmarkdown::paged_table()
+```
+
+
+# Phân tích kết quả thực hiện chương trình
+
+## Phân theo hạng sao
+
+
+```{r}
+# A1.
+# Thống kê mô tả
+summary_table <- dta %>%
+  group_by(year_eval, star_type) %>%
+  summarise(count = n(), .groups = "drop")
+print(summary_table)
+
+```
+
+
+
+```{r}
+# A2
+# Vẽ biểu đồ cột theo cấp sao (3 4 5)
+ggplot(summary_table, aes(x = factor(year_eval), y = count, fill = factor(star_type))) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Phân theo cấp sao",
+       x = "Năm",
+       y = "Số lượng",
+       fill = "Cấp sao") +
+  theme_minimal()
+
+```
+
+
+
+```{r}
+# A3 
+# Cài đặt thư viện cần thiết
+pacman::p_load(fmsb)
+
+# Chọn các cột cần thiết và nhóm theo star_type
+df <- dta %>% select(star_type, score_A, score_B, score_C) %>%
+  group_by(star_type) %>%
+  summarise(across(c(score_A, score_B, score_C), mean, na.rm = TRUE), .groups = "drop")
+
+# Tạo max/min cho radar chart (thêm cột star_type để tránh lỗi khác số cột)
+max_min <- data.frame(
+  star_type = "Max/Min",
+  score_A = c(max(df$score_A, na.rm = TRUE), min(df$score_A, na.rm = TRUE)),
+  score_B = c(max(df$score_B, na.rm = TRUE), min(df$score_B, na.rm = TRUE)),
+  score_C = c(max(df$score_C, na.rm = TRUE), min(df$score_C, na.rm = TRUE))
+)
+
+# Ghép max/min vào dataframe
+df_radar <- rbind(max_min, df)
+
+# Loại bỏ cột star_type trước khi vẽ radar chart
+df_radar_numeric <- df_radar %>% select(-star_type)
+
+# Lấy danh sách star_type để tạo màu sắc
+star_types <- df$star_type
+colors <- rainbow(length(star_types))
+
+# Vẽ radar chart với các nhóm star_type
+par(mfrow = c(1, 1)) # Reset layout
+radarchart(df_radar_numeric, axistype = 1, 
+           pcol = colors, pfcol = adjustcolor(colors, alpha.f = 0.3), 
+           plwd = 2, plty = 1, 
+           title = "% điểm đánh giá các phần A, B, C so với khung điểm chung")
+
+# Thêm chú thích (legend)
+legend("topright", legend = star_types, col = colors, lty = 1, lwd = 2, title = "Cấp sao")
+
+```
+
+
+
+## Phân theo loại hình chủ thể OCOP
+
+
+```{r}
+# B1. 
+# Thống kê mô tả
+summary_table <- dta %>%
+  group_by(year_eval, company_type) %>%
+  summarise(count = n(), .groups = "drop")
+print(summary_table)
+
+```
+
+
+```{r}
+# B2
+# Vẽ biểu đồ cột theo loại hình chủ thể OCOP
+ggplot(summary_table, aes(x = factor(year_eval), y = count, fill = factor(company_type))) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Phân theo loại hình chủ thể OCOP",
+       x = "Năm",
+       y = "Số lượng",
+       fill = "Loại hình") +
+  theme_minimal()
+
+```
+
+
+## Sơ đồ radar về kết quả phân hạng sản phẩm OCOP 
+
+Tương quan điểm phần A, B, C giữa các loại hình chủ thể OCOP
+
+
+```{r}
+# B3
+# Chọn các cột cần thiết và nhóm theo company_type
+df <- dta %>% select(company_type, score_A, score_B, score_C) %>%
+  group_by(company_type) %>%
+  summarise(across(c(score_A, score_B, score_C), mean, na.rm = TRUE), .groups = "drop")
+
+# Tạo max/min cho radar chart (thêm cột company_type để tránh lỗi khác số cột)
+max_min <- data.frame(
+  company_type = "Max/Min",
+  score_A = c(max(df$score_A, na.rm = TRUE), min(df$score_A, na.rm = TRUE)),
+  score_B = c(max(df$score_B, na.rm = TRUE), min(df$score_B, na.rm = TRUE)),
+  score_C = c(max(df$score_C, na.rm = TRUE), min(df$score_C, na.rm = TRUE))
+)
+
+# Ghép max/min vào dataframe
+df_radar <- rbind(max_min, df)
+
+# Loại bỏ cột company_type trước khi vẽ radar chart
+df_radar_numeric <- df_radar %>% select(-company_type)
+
+# Lấy danh sách company_type để tạo màu sắc
+company_types <- df$company_type
+colors <- rainbow(length(company_types))
+
+# Vẽ radar chart với các nhóm company_type
+par(mfrow = c(1, 1)) # Reset layout
+radarchart(df_radar_numeric, axistype = 1, 
+           pcol = colors, pfcol = adjustcolor(colors, alpha.f = 0.3), 
+           plwd = 2, plty = 1, 
+           title = "% điểm đánh giá các phần A, B, C so với khung điểm chung")
+
+# Thêm chú thích (legend)
+legend("topright", legend = company_types, col = colors, lty = 1, lwd = 2, title = "Loại hình")
+
+```
+
+
+
+# Kết quả đánh giá phân hạng sản phẩm OCOP năm  `r format(Sys.Date(), "%Y")`
+
+
+## Kết quả đánh giá phân hạng sản phẩm OCOP cấp quốc gia năm  `r format(Sys.Date(), "%Y")`
+
+
+```{r}
+# Lọc và hiển thị dữ liệu
+dta_new <- import(here("csdl", "ocop_ag_2025.xlsx")) %>% 
+filter(star_type %in% c("5")) %>%
+  rmarkdown::paged_table()
+```
+
+
+## Kết quả đánh giá phân hạng sản phẩm OCOP cấp tỉnh năm  `r format(Sys.Date(), "%Y")`
+
+```{r}
+# Lọc và hiển thị dữ liệu
+dta_new %>% 
+filter(star_type %in% c("4")) %>%
+  rmarkdown::paged_table()
+```
+
+
+## Kết quả đánh giá phân hạng sản phẩm OCOP cấp huyện năm  `r format(Sys.Date(), "%Y")`
+
+
+```{r}
+# Lọc và hiển thị dữ liệu
+dta_new %>% 
+filter(star_type %in% c("3")) %>%
+  rmarkdown::paged_table()
+```
+
+
+# Danh mục các sản phẩm có tiềm năng nâng hạng cấp sao
+
+
+## Năm sao
+
+
+```{r}
+# Loại bỏ cột kinh_do và vi_do, sau đó lọc điểm số > 84
+filtered_data <- dta %>% 
+  select(-kinh_do, -vi_do) %>% 
+  filter(score_total > 84 & score_total < 90)
+
+# Hiển thị dữ liệu theo định dạng bảng đẹp trong RMarkdown
+rmarkdown::paged_table(filtered_data)
+
+```
+
+
+## Bốn sao
+
+```{r}
+# Loại bỏ cột kinh_do và vi_do, sau đó lọc điểm số > 64 & < 70
+filtered_data <- dta %>% 
+  select(-kinh_do, -vi_do) %>% 
+  filter(score_total > 64 & score_total < 70)
+
+# Hiển thị dữ liệu theo định dạng bảng đẹp trong RMarkdown
+rmarkdown::paged_table(filtered_data)
+
+```
+
+
+
+# Danh mục các sản phẩm OCOP tiềm năng 
+
+```{r}
+dta_potential <- import(here("csdl", "ocop_ag_potential.xlsx")) 
+dta_potential %>% 
+  select(-kinh_do, -vi_do) %>%
+rmarkdown::paged_table()
+
+```
+
+
+
+end.
+
